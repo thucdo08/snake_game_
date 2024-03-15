@@ -2,7 +2,191 @@
 #include "Header.h"
 
 
-void menu() {
+void menu()
+{
+    char key_press;
+    int ascii_value;
+    int xuong = 0;
+    int trang = 0;
+    backgroundmenu();
+    start();
+    while (trang==0) {
+        key_press = tolower(_getch());
+        switch (key_press) {
+        case 's':
+            if (xuong != 4) {
+                xuong++;
+            }
+            break;
+        case 'w':
+            if (xuong != 0) {
+                xuong--;
+                break;
+            }
+        case 'j':
+            if (xuong == 1) {
+                backgroundmenu();
+                ogioithieu();
+                trang++;
+            }
+            else if (xuong == 4)
+                return ;
+            break;
+        }
+        if (trang == 0) {
+            switch (xuong) {
+            case 0:
+                start();
+                break;
+            case 1:
+                introduction();
+                break;
+            case 2:
+                settings();
+                break;
+            case 3:
+                ranking();
+                break;
+            case 4:
+                exits();
+                break;
+            default:
+                break;
+            }
+        }
+    }
+}
+void start() {
+    backColor(0);
+    gotoXY(63, 12);
+    textColor(3);
+    cout << "START";
+    gotoXY(59, 15);
+    textColor(6);
+    cout << "INTRODUCTION";
+    gotoXY(61, 18);
+    textColor(6);
+    cout << "SETTINGS";
+    gotoXY(62, 21);
+    cout << "RANKING";
+    gotoXY(63, 24);
+    cout << "EXITS";
+    backColor(12);
+    for (int y = 10; y <= 26; y++) {
+        for (int x = 53; x <= 76; x++) {
+            gotoXY(x, y);
+            if (x == 53 || x == 76 || y == 10 || y == 26)
+                cout << " ";
+        }
+    }
+
+}
+void introduction() {
+    backColor(0);
+    gotoXY(63, 12);
+    textColor(6);
+    cout << "START";
+    gotoXY(59, 15);
+    textColor(3);
+    cout << "INTRODUCTION";
+    gotoXY(61, 18);
+    textColor(6);
+    cout << "SETTINGS";
+    gotoXY(62, 21);
+    cout << "RANKING";
+    gotoXY(63, 24);
+    cout << "EXITS";
+    backColor(12);
+    for (int y = 10; y <= 26; y++) {
+        for (int x = 53; x <= 76; x++) {
+            gotoXY(x, y);
+            if (x == 53 || x == 76 || y == 10 || y == 26)
+                cout << " ";
+        }
+    }
+}
+void settings() {
+    backColor(0);
+    gotoXY(63, 12);
+    textColor(6);
+    cout << "START";
+    gotoXY(59, 15);
+    cout << "INTRODUCTION";
+    gotoXY(61, 18);
+    textColor(3);
+    cout << "SETTINGS";
+    textColor(6);
+    gotoXY(62, 21);
+    cout << "RANKING";
+    gotoXY(63, 24);
+    cout << "EXITS";
+    backColor(12);
+    for (int y = 10; y <= 26; y++) {
+        for (int x = 53; x <= 76; x++) {
+            gotoXY(x, y);
+            if (x == 53 || x == 76 || y == 10 || y == 26)
+                cout << " ";
+        }
+    }
+}
+void ranking() {
+    backColor(0);
+    gotoXY(63, 12);
+    textColor(6);
+    cout << "START";
+    gotoXY(59, 15);
+    cout << "INTRODUCTION";
+    gotoXY(61, 18);
+    cout << "SETTINGS";
+    textColor(3);
+    gotoXY(62, 21);
+    textColor(3);
+    cout << "RANKING";
+    textColor(6);
+    gotoXY(63, 24);
+    cout << "EXITS";
+    backColor(12);
+    for (int y = 10; y <= 26; y++) {
+        for (int x = 53; x <= 76; x++) {
+            gotoXY(x, y);
+            if (x == 53 || x == 76 || y == 10 || y == 26)
+                cout << " ";
+        }
+    }
+}
+void exits() {
+    backColor(0);
+    gotoXY(63, 12);
+    textColor(6);
+    cout << "START";
+    gotoXY(59, 15);
+    cout << "INTRODUCTION";
+    gotoXY(61, 18);
+    cout << "SETTINGS";
+    gotoXY(62, 21);
+    cout << "RANKING";
+    textColor(3);
+    gotoXY(63, 24);
+    cout << "EXITS";
+    backColor(12);
+    for (int y = 10; y <= 26; y++) {
+        for (int x = 53; x <= 76; x++) {
+            gotoXY(x, y);
+            if (x == 53 || x == 76 || y == 10 || y == 26)
+                cout << " ";
+        }
+    }
+}
+void ogioithieu() {
+    for (int y = 11; y <= 25; y++) {
+        for (int x = 33; x <= 60; x++) {
+            gotoXY(x, y);
+            cout << " ";
+        }
+    }
+}
+
+void backgroundmenu() {
     //ve khung menu
     backColor(2);
     for (int x = 2; x < 130; x++) {
@@ -307,5 +491,3 @@ void menu() {
         cout << " ";
     }
 }
-
-
