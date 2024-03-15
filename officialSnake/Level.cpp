@@ -10,12 +10,17 @@ struct Position {
     int y;
 };
 
+
+
 bool gameOver;
-bool start;
+bool isStart;
 int xBase, yBase, widthBase, heightBase;
 Position fruit;
 Position snake[100];
 int snakeLength = 3;
+Position preSnake;
+
+
 
 
 
@@ -28,15 +33,17 @@ void level1() {
     cf.dwFontSize.Y = 20;
     wcscpy_s(cf.FaceName, L"Terminal");
     SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), 0, &cf);   
-             
+
          
     srand(time(NULL));
     SetUp();
     Draw();
+    
     while (!gameOver) {
         Input();
         Logic();
         drawSnFr();
+        
         Sleep(100);
     }
     
@@ -46,7 +53,7 @@ void level1() {
 
 void SetUp() {
     gameOver = false;
-    start = false;
+    isStart = false;
 
     xBase = 10, yBase = 5;
     widthBase = 40, heightBase = 20;
@@ -60,6 +67,8 @@ void SetUp() {
     snake[2].x = snake[1].x - 1;
     snake[2].y = snake[0].y;
 
+   
+
     fruit.x = rand() % (widthBase)+xBase;
     fruit.y = rand() % (heightBase)+yBase;
 }
@@ -71,7 +80,7 @@ void Draw() {
 
 void Input() {
     if (_kbhit()) {
-        start = true;
+        isStart = true;
         char temp = tolower(_getch());
         switch (temp) {
         case 'w':
@@ -90,24 +99,27 @@ void Input() {
             if (dir != LEFT)
                 dir = RIGHT;
             break;
-        default:
-            break;
+        
         }
     }
 }
 
 void Logic() {
-    Position preSnake[2];
-    preSnake[0] = snake[1];
-    snake[1] = snake[0];
-    for (int i = 2; i < snakeLength; i++) {
-        preSnake[1] = snake[i];
-        snake[i] = preSnake[0];
-        preSnake[0] = preSnake[1];
+  
+    preSnake = snake[snakeLength - 1];
+    for (int i = snakeLength - 1; i >= 1; i--)
+    {
+  
+            snake[i] = snake[i - 1];
+
+        
     }
-    gotoXY(preSnake[0].x, preSnake[0].y);
-    cout << "5";
-    //highLight(preSnake[0].x, preSnake[0].y, 6);
+
+
+    highLight(snake[snakeLength - 1].x, snake[snakeLength - 1].y, 6);
+
+
+    
 
     switch (dir) {
     case UP:
@@ -125,7 +137,7 @@ void Logic() {
     default:
         break;
     }
-    if (start) {
+    if (isStart) {
         for (int i = 1; i < snakeLength; i++) {
             if (snake[0].x == snake[i].x && snake[0].y == snake[i].y)
                 gameOver = true;
@@ -135,7 +147,8 @@ void Logic() {
         fruit.x = rand() % (widthBase)+xBase;
         fruit.y = rand() % (heightBase)+yBase;
         snakeLength++;
-        snake[snakeLength - 1] = snake[snakeLength - 2];
+
+        
     }
     if (snake[0].x < xBase || snake[0].x >= xBase + widthBase || snake[0].y < yBase || snake[0].y >= yBase + heightBase) {
         gameOver = true;
@@ -145,9 +158,26 @@ void Logic() {
 //draw snake and fruit
 void drawSnFr() {
         for (int i = 0; i < snakeLength; i++) {
-        highLight(snake[i].x, snake[i].y, i);
-        studentID(i);
+            if (snake[i].x != 0) {
+                if (i == 7)
+                {
+                    highLight(snake[i].x, snake[i].y,1);
+
+                }
+                else
+                {
+                    highLight(snake[i].x, snake[i].y, i);
+                }
+                gotoXY(snake[i].x, snake[i].y);
+                studentID(i);
+                highLight(preSnake.x, preSnake.y, 6);
+
+                //highLight(snake[snakeLength - 1].x, snake[snakeLength - 1].y, 5);
+
+            }
+            
     }
+
     highLight(fruit.x, fruit.y, 7);
 }
 
