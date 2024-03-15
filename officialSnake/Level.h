@@ -3,6 +3,7 @@
 #include "Header.h"
 #include "Menu.h"
 #include <Windows.h>
+#include <ctime>
 
 using namespace std;
 
