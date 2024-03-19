@@ -1,11 +1,16 @@
-﻿#include "Level.h"
+#include "Header.h"
+#include "Level.h"
 #include "Menu.h"
 #include "Header.h"
+#include <thread>
 
-void main() {
+int main() {
+	std::thread inputThread(Input);
 	FixConsoleWindow();
-	setConsoleWindow(1280, 720);
+	SetConsoleWindow(1280, 720);
 	MoveCenter();
-	//menu();
-	level1();
+	HideCursor();
+	menu();
+	inputThread.join();
+	return 0;
 }
