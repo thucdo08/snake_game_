@@ -1,10 +1,7 @@
 #include "Level.h"
 #include "SetUp.h"
 
-enum eDirection { STOP, DOWN, UP, RIGHT, LEFT };
-eDirection dir, preDir;
-
-
+//eDirection dir;
 struct Position {
     int x;
     int y;
@@ -12,51 +9,91 @@ struct Position {
 
 
 
-bool gameOver;
-bool isStart;
+bool gameOver, isGate,isSnakeGoToGate;
+//bool isStart;
 int xBase, yBase, widthBase, heightBase;
 Position fruit;
 Position snake[100];
-int snakeLength = 3;
+int snakeLength;
 Position preSnake;
+Position Gate;
+int mainColor, frameColor;
 
 
 
 
 
 void level1() {
-    
-  
-    CONSOLE_FONT_INFOEX cf = {0};
-    cf.cbSize = sizeof cf;
-    cf.dwFontSize.X = 10;
-    cf.dwFontSize.Y = 20;
-    wcscpy_s(cf.FaceName, L"Terminal");
-    SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), 0, &cf);   
+    setCellSize(15,15);
 
          
     srand(time(NULL));
-    SetUp();
-    Draw();
+    SetUpLvl();
+    mainColor = 6;
+    frameColor = 5;
+    Draw(mainColor,frameColor);
     
     while (!gameOver) {
         Input();
         Logic();
         drawSnFr();
+        gotoXY(150, 50);
+        cout<< "Score: " << snakeLength - 3;
+        if (snakeLength >= 5 && !isGate)
+        {
+			gateSnake();
+            isGate = true;
+		}
+        if (isGate && snake[snakeLength - 1].x == Gate.x && snake[snakeLength - 1].y == Gate.y)
+        {
+            system("cls");
+            level2();
+        }
+        Sleep(100);
+    }
+    system("cls");
+    menu();
+    
+}
+
+void level2() {
+    setCellSize(15,15);
+
+         
+    srand(time(NULL));
+    SetUpLvl();
+    mainColor = 2;
+    frameColor = 3;
+    Draw(mainColor,frameColor);
+    
+    while (!gameOver) {
+        Input();
+        Logic();
+        drawSnFr();
+        gotoXY(150, 50);
+        cout<< "Score: " << snakeLength - 3;
+        if (snakeLength >= 5 && !isGate)
+        {
+			gateSnake();
+            isGate = true;
+		}
         
         Sleep(100);
     }
+    system("cls");
+    menu();
     
-    gotoXY(200, 100);
-    system("PAUSE");
 }
-
-void SetUp() {
+void SetUpLvl() {
     gameOver = false;
     isStart = false;
+    isGate = false;
+    isSnakeGoToGate = false;
+
+    snakeLength = 3;
 
     xBase = 10, yBase = 5;
-    widthBase = 40, heightBase = 20;
+    widthBase = 40, heightBase = 32;
 
     dir = STOP;
 
@@ -73,47 +110,23 @@ void SetUp() {
     fruit.y = rand() % (heightBase)+yBase;
 }
 
-void Draw() {
-    drawBox(xBase - 1, yBase - 1, widthBase + 1, heightBase + 1);
+void Draw(int mainColor,int frameColor) {
+    drawBox(xBase - 1, yBase - 1, widthBase + 1, heightBase + 1,mainColor,frameColor);
     drawSnFr();
 }
 
-void Input() {
-    if (_kbhit()) {
-        isStart = true;
-        char temp = tolower(_getch());
-        switch (temp) {
-        case 'w':
-            if (dir != DOWN)
-                dir = UP;
-            break;
-        case'a':
-            if (dir != RIGHT)
-                dir = LEFT;
-            break;
-        case's':
-            if (dir != UP)
-                dir = DOWN;
-            break;
-        case'd':
-            if (dir != LEFT)
-                dir = RIGHT;
-            break;
-        
-        }
-    }
-}
+
 
 void Logic() {
   
     preSnake = snake[snakeLength - 1];
+
+    if (snake[0].x == Gate.x && snake[0].y == Gate.y)
+		isSnakeGoToGate = true;
+
     for (int i = snakeLength - 1; i >= 1; i--)
-    {
-  
             snake[i] = snake[i - 1];
 
-        
-    }
 
 
     highLight(snake[snakeLength - 1].x, snake[snakeLength - 1].y, 6);
@@ -123,15 +136,19 @@ void Logic() {
 
     switch (dir) {
     case UP:
+        if(!isSnakeGoToGate)
         snake[0].y--;
         break;
     case RIGHT:
+        if(!isSnakeGoToGate)
         snake[0].x++;
         break;
     case LEFT:
+        if(!isSnakeGoToGate)
         snake[0].x--;
         break;
     case DOWN:
+        if(!isSnakeGoToGate)
         snake[0].y++;
         break;
     default:
@@ -139,7 +156,7 @@ void Logic() {
     }
     if (isStart) {
         for (int i = 1; i < snakeLength; i++) {
-            if (snake[0].x == snake[i].x && snake[0].y == snake[i].y)
+            if (snake[0].x == snake[i].x && snake[0].y == snake[i].y && !isSnakeGoToGate)
                 gameOver = true;
         }
     }
@@ -159,18 +176,14 @@ void Logic() {
 void drawSnFr() {
         for (int i = 0; i < snakeLength; i++) {
             if (snake[i].x != 0) {
-                if (i == 7)
-                {
-                    highLight(snake[i].x, snake[i].y,1);
-
-                }
-                else
-                {
+                if(snake[i].x==Gate.x && snake[i].y==Gate.y)
+                    highLight(snake[i].x, snake[i].y, 3);
+                else {
                     highLight(snake[i].x, snake[i].y, i);
-                }
-                gotoXY(snake[i].x, snake[i].y);
-                studentID(i);
-                highLight(preSnake.x, preSnake.y, 6);
+                    gotoXY(snake[i].x, snake[i].y);
+                    studentID(i);
+				}
+                highLight(preSnake.x, preSnake.y, mainColor);
 
                 //highLight(snake[snakeLength - 1].x, snake[snakeLength - 1].y, 5);
 
@@ -182,19 +195,23 @@ void drawSnFr() {
 }
 
 
+void gateSnake() {
+	Gate.x = rand() % (widthBase - 1)+(xBase + 1);
+	Gate.y = rand() % (heightBase - 1)+(yBase + 1);
+	highLight(Gate.x, Gate.y, 3);
+}
 
 
 
 
-
-void drawBox(int x, int y, int width, int height) {
+void drawBox(int x, int y, int width, int height, int mainColor, int frameColor) {
 	for (int i = x; i <= x + width; i++) {
 		for (int j = y; j <= y + height; j++) {
             if (i == x || i == x + width||j==y||j==y+height) {
-                highLight(i, j, 5);
+                highLight(i, j, frameColor);
             }
 			else
-				highLight(i,j,6);
+				highLight(i,j,mainColor);
 		}
         cout << endl;
 	}
