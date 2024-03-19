@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <conio.h>
 #include <iostream>
+#include "Header.h"
 
 using namespace std;
 
@@ -14,3 +15,4 @@ void ranking();
 void backgroundmenu();
 void ogioithieu();
 void backgroundmenu();
+void Input();
