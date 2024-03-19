@@ -1,4 +1,4 @@
-﻿#include "Header.h"
+#include "Header.h"
 
 
 //Fix the console window so that the user cannot resize it
@@ -11,7 +11,7 @@ void FixConsoleWindow() {
 }
 
 //Set the console window size
-void setConsoleWindow(int width, int height) {
+void SetConsoleWindow(int width, int height) {
 	HWND console = GetConsoleWindow();
 	RECT r;
 	GetWindowRect(console, &r);
@@ -40,6 +40,26 @@ void MoveCenter()
     posy = GetSystemMetrics(SM_CYSCREEN) / 2 - (rectWindow.bottom - rectWindow.top) / 2,
 
     MoveWindow(hWnd, posx, posy, rectClient.right - rectClient.left, rectClient.bottom - rectClient.top, TRUE);
+}
+
+//Hide the cursor
+
+void HideCursor() {
+	HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_CURSOR_INFO cursorInfo;
+	GetConsoleCursorInfo(out, &cursorInfo);
+	cursorInfo.bVisible = false;
+	SetConsoleCursorInfo(out, &cursorInfo);
+}
+
+//Set the font size and font type of the console
+void setCellSize(int x, int y) {
+    CONSOLE_FONT_INFOEX cf = { 0 };
+    cf.cbSize = sizeof cf;
+    cf.dwFontSize.X = x;
+    cf.dwFontSize.Y = y;
+    wcscpy_s(cf.FaceName, L"Terminal");
+    SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), 0, &cf);
 }
 
 // Hàm thay đổi màu kí tu của console
