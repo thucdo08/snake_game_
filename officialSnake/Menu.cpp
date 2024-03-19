@@ -1,40 +1,60 @@
 #include "Menu.h"
-#include "Header.h"
+#include "SetUp.h"
+#include "Level.h"
 
 
 void menu()
 {
-    char key_press;
-    int ascii_value;
-    int xuong = 0;
-    int trang = 0;
+    setCellSize(10, 15);
+    cursor = NEWGAME;
+    page = MENU;
+    dir = STOP;
     backgroundmenu();
     start();
-    while (trang==0) {
-        key_press = tolower(_getch());
-        switch (key_press) {
-        case 's':
-            if (xuong != 4) {
-                xuong++;
+
+    while (page == MENU) {
+        Input();
+        switch (dir) {
+        case DOWN:{
+            if (cursor != EXITGAME)
+            {
+                cursor = cursorMenu(cursor + 1);
             }
-            break;
-        case 'w':
-            if (xuong != 0) {
-                xuong--;
-                break;
-            }
-        case 'j':
-            if (xuong == 1) {
-                backgroundmenu();
-                ogioithieu();
-                trang++;
-            }
-            else if (xuong == 4)
-                return ;
             break;
         }
-        if (trang == 0) {
-            switch (xuong) {
+        case UP: {
+            if (cursor != NEWGAME) {
+                cursor = cursorMenu(cursor - 1);
+            }
+            break;
+        }
+        case ENTER: {
+            if (cursor == curHELP) {
+                backgroundmenu();
+                ogioithieu();
+                page = Page::HELP;
+            }
+            else if (cursor == NEWGAME)
+            {
+                system("cls");
+                page = Page::PLAY;
+                level1();
+            }
+            else if (cursor == EXITGAME)
+                return;
+            break;
+        }
+        case EXIT:
+        {
+            if (page != MENU)
+            {
+                menu();
+                break;
+            }
+        }
+        }
+        if (page == MENU) {
+            switch (cursor) {
             case 0:
                 start();
                 break;
@@ -54,8 +74,12 @@ void menu()
                 break;
             }
         }
+        dir = STOP;
+        Sleep(100);
     }
 }
+
+
 void start() {
     backColor(0);
     gotoXY(63, 12);
