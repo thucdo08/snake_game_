@@ -1,4 +1,4 @@
-#include "Header.h"
+﻿#include "Header.h"
 
 
 //Fix the console window so that the user cannot resize it
@@ -50,6 +50,14 @@ void HideCursor() {
 	GetConsoleCursorInfo(out, &cursorInfo);
 	cursorInfo.bVisible = false;
 	SetConsoleCursorInfo(out, &cursorInfo);
+}
+
+//Close console window
+void CloseConsole() {
+    HWND hWndConsole = GetConsoleWindow(); // Get the handle to the console window
+    if (hWndConsole != NULL) {
+        SendMessage(hWndConsole, WM_CLOSE, 0, 0); // Close the console window
+    }
 }
 
 //Set the font size and font type of the console

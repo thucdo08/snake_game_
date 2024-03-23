@@ -1,21 +1,24 @@
 #include "Menu.h"
 #include "SetUp.h"
 #include "Level.h"
+#include "Header.h"
 
 
 void menu()
 {
+    system("cls");
     setCellSize(10, 15);
     cursor = NEWGAME;
     page = MENU;
-    dir = STOP;
+    dir = eDirection::STOP;
+    state = NONE;
     backgroundmenu();
     start();
 
-    while (page == MENU) {
-        Input();
+    while (true) {
+        //Input();
         switch (dir) {
-        case DOWN:{
+        case DOWN: {
             if (cursor != EXITGAME)
             {
                 cursor = cursorMenu(cursor + 1);
@@ -28,30 +31,8 @@ void menu()
             }
             break;
         }
-        case ENTER: {
-            if (cursor == curHELP) {
-                backgroundmenu();
-                ogioithieu();
-                page = Page::HELP;
-            }
-            else if (cursor == NEWGAME)
-            {
-                system("cls");
-                page = Page::PLAY;
-                level1();
-            }
-            else if (cursor == EXITGAME)
-                return;
+        default:
             break;
-        }
-        case EXIT:
-        {
-            if (page != MENU)
-            {
-                menu();
-                break;
-            }
-        }
         }
         if (page == MENU) {
             switch (cursor) {
@@ -74,7 +55,39 @@ void menu()
                 break;
             }
         }
-        dir = STOP;
+        switch(state){
+        case ENTER: {
+            if (page == MENU) {
+                if (cursor == curHELP) {
+                    backgroundmenu();
+                    ogioithieu();
+                    page = Page::HELP;
+                }
+                else if (cursor == NEWGAME)
+                {
+                    system("cls");
+                    page = Page::PLAY;
+                    level1();
+                    return;
+                }
+                else if (cursor == EXITGAME)
+                    CloseConsole();
+            }
+        }
+        case EXIT:
+        {
+            if (page != MENU)
+            {
+                system("cls");
+                menu();
+                break;
+            }
+        }
+        default:
+            break;
+        }
+        state = State::NONE;
+        dir = eDirection::STOP;
         Sleep(100);
     }
 }
@@ -103,7 +116,6 @@ void start() {
                 cout << " ";
         }
     }
-
 }
 void introduction() {
     backColor(0);
@@ -208,6 +220,12 @@ void ogioithieu() {
             cout << " ";
         }
     }
+    while (true) {
+        if(state== EXIT)
+			break;
+        Sleep(500);
+    }
+
 }
 
 void backgroundmenu() {

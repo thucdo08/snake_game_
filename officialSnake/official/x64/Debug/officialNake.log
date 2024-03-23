@@ -1,0 +1,12 @@
+﻿  Header.cpp
+  Level.cpp
+  SetUp.cpp
+D:\VS2022\KTLT_23-24_23CTT3\officialSnake\Level.cpp(26,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+D:\VS2022\KTLT_23-24_23CTT3\officialSnake\Level.cpp(62,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  snake.cpp
+  Menu.cpp
+  Header.h
+  Sound.cpp
+  Generating Code...
+official\x64\Debug\Header.obj : warning LNK4042: object specified more than once; extras ignored
+  officialNake.vcxproj -> D:\VS2022\KTLT_23-24_23CTT3\officialSnake\x64\Debug\official.exe

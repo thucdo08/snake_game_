@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <Windows.h>
 #include <conio.h>
 #include <iostream>
@@ -9,6 +9,7 @@ void FixConsoleWindow();
 void SetConsoleWindow(int width, int height);
 void MoveWindow(int posx, int posy);
 void MoveCenter();
+void CloseConsole();
 void HideCursor();
 void setCellSize(int x, int y);
 void highLight(int x, int y, int color);

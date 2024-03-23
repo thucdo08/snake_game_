@@ -33,7 +33,7 @@
     <ClCompile Include="Level.cpp">
       <Filter>Level</Filter>
     </ClCompile>
-    <ClCompile Include="Header.cpp">
+    <ClCompile Include="Header.h">
       <Filter>Header</Filter>
     </ClCompile>
     <ClCompile Include="Menu.cpp">
@@ -42,13 +42,16 @@
     <ClCompile Include="SetUp.cpp">
       <Filter>SetUp</Filter>
     </ClCompile>
+    <ClCompile Include="Header.cpp">
+      <Filter>Header</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Level.h">
       <Filter>Level</Filter>
-    </ClInclude>
-    <ClInclude Include="Header.h">
-      <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="Menu.h">
       <Filter>Menu</Filter>
@@ -56,5 +59,13 @@
     <ClInclude Include="SetUp.h">
       <Filter>SetUp</Filter>
     </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="eatingSound.wav">
+      <Filter>Source Files</Filter>
+    </Media>
   </ItemGroup>
 </Project>
