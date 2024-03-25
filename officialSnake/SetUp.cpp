@@ -25,23 +25,30 @@ void Input()
             {
             case 'w':
             {
-                if (dir != DOWN || page == MENU)
+                if (dir != DOWN || page == MENU) {
                     dir = UP;
+                    isStart= true;
+                }
                 break;
             }
             case 'a':
-                if (dir != RIGHT && isStart)
+                if (dir != RIGHT && dir != STOP) {
                     dir = LEFT;
+                }
                 break;
             case 's':
             {
-                if (dir != UP || page == MENU)
+                if (dir != UP || page == MENU) {
                     dir = DOWN;
+                    isStart = true;
+                }
                 break;
             }
             case 'd':
-                if (dir != LEFT)
+                if (dir != LEFT) {
                     dir = RIGHT;
+                    isStart = true;
+                }
                 break;
             case char(13):
                 state = ENTER;
@@ -50,7 +57,6 @@ void Input()
                 state = EXIT;
                 break;
             }
-            isStart = true;
         }
         Sleep(100);
     }
