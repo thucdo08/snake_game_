@@ -1,4 +1,0 @@
-﻿  Level.cpp
-D:\VS2022\test\officialSnake (canload)\officialSnake\Level.cpp(20,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-D:\VS2022\test\officialSnake (canload)\officialSnake\Level.cpp(90,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  officialNake.vcxproj -> D:\VS2022\test\officialSnake (canload)\officialSnake\x64\Debug\official.exe
